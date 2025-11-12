@@ -1,0 +1,24 @@
+pycache/
+*.py[cod]
+*$py.class
+
+Virtual environment
+venv/
+env/
+.venv/
+
+Django stuff:
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+
+IDEs
+.idea/
+.vscode/
+
+OS
+.DS_Store
+Thumbs.db
