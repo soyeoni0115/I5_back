@@ -1,5 +1,6 @@
 import requests
-from .models import Word, Definition
+from django.shortcuts import get_object_or_404
+from .models import Word, Definition, Bookmark, User
 
 #외부 API키
 STD_DICT_KOREAN_URL ='https://stdict.korean.go.kr/api/search.do'
@@ -79,3 +80,19 @@ def _create_word_from_api(query):
         raise Exception("[S]API 호출 실패")
 
     return word      
+
+
+def toggle_bookmark_services(user, word_id):
+    ''''
+    [param] user (User) , word_id (int)
+    [return] (bool) - 북마크 상태 (True:북마크됨, False:북마크해제)
+    '''
+    word = get_object_or_404(Word, pk=word_id)
+    bookmark = Bookmark.objects.filter(user=user, word=word)
+    
+    if bookmark.exists():
+        bookmark.delete()
+        return False
+    else:
+        Bookmark.objects.create(user=user, word=word)
+        return True

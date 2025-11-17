@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Word(models.Model):
@@ -29,12 +30,12 @@ class Bookmark(models.Model):
     북마크된 단어를 저장하는 모델
     user와 M:N 관계
     '''
-    # user = models.ForeignKey(Word, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
 
-    # class Meta:
-    #     # 한 유저가 같은 단어를 중복 북마크하는 것 방지
-    #     unique_together = ('user','word')
+    class Meta:
+        # 한 유저가 같은 단어를 중복 북마크하는 것 방지
+        unique_together = ('user','word')
 
     def __str__(self):
-        pass
+        return f"{self.user.username} - {self.word.text}"
