@@ -7,7 +7,7 @@ from .forms import SignUpForm
 
 def signup_view(request):
     """
-    회원가입 뷰 (GET, POST)
+    회원가입 뷰 (POST)
     """
     if request.method == 'POST':
         form = SignUpForm(request.POST)
