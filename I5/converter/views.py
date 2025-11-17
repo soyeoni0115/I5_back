@@ -100,99 +100,80 @@ def meaning(request):
 from django.shortcuts import render
 from django.http import JsonResponse
 import PyPDF2, docx
-#import pyhwp 
-import tempfile 
-import os      
+from konlpy.tag import Okt  # 여기는 OK
+import tempfile, os 
+from words.services import find_or_create_word # <-- 이게 다시 필요합니다!
 
-from words.services import find_or_create_word
-
-# ✅ 자연어처리(형태소 분석기) 임포트
-from konlpy.tag import Okt
-okt = Okt()
-
+okt=Okt()
 
 def upload(request):
     paragraphs = []
-    
     if request.method == "POST":
         file = request.FILES["document"]
 
-        # PDF
         if file.name.endswith(".pdf"):
             reader = PyPDF2.PdfReader(file)
             for page in reader.pages:
                 page_text = page.extract_text()
-                paragraphs.extend(page_text.split('\n'))
+                if page_text:
+                    paragraphs.extend(page_text.split('\n'))
 
-        # DOCX
         elif file.name.endswith(".docx"):
             doc = docx.Document(file)
             paragraphs = [p.text for p in doc.paragraphs if p.text]
 
-        # HWP / HWPX (현재 주석 처리되어 있음)
-        elif file.name.endswith((".hwp", ".hwpx")):
-            with tempfile.NamedTemporaryFile(delete=False, suffix=file.name) as temp_file:
-                for chunk in file.chunks():
-                    temp_file.write(chunk)
-                temp_file_path = temp_file.name
-            
-            try:
-                hwp = pyhwp.HWPReader(temp_file_path)
-                body_text = hwp.get_text()
-                paragraphs = body_text.split('\n')
-            except Exception as e:
-                print(f"HWP 파일 처리 오류: {e}")
-                paragraphs = ["HWP 파일을 읽는 중 오류가 발생했습니다."]
-            finally:
-                os.remove(temp_file_path)
-
-        # TXT
         elif file.name.endswith(".txt"):
             text = file.read().decode("utf-8")
             paragraphs = text.splitlines()
 
-    # 공백 문단 제거
-    paragraphs = [p.strip() for p in paragraphs if p.strip()]
-
-    # =====================================
-    # ⭐ 여기서 형태소 분석(Okt)로 단어 단위 분리
-    # =====================================
-    tokenized_paragraphs = []
-    for p in paragraphs:
-        words = okt.morphs(p)       # 형태소 단위로 분리
-        tokenized_paragraphs.append(words)
-
-    # 템플릿에 tokens 전달
-    return render(request, "converter/converter.html", {
-        "paragraphs": tokenized_paragraphs
-    })
-
+    paragraphs = [p for p in paragraphs if p.strip()]
+    return render(request, "converter/converter.html", {"paragraphs": paragraphs})
 
 
 def meaning(request):
     word = request.GET.get("word")
     
-    if word is None:
-        return JsonResponse({"definitions": "단어를 입력하세요", "word":""})
+    if not word:
+        return JsonResponse({"definitions": ["단어 없음"], "word": ""})
 
-    punctuation = ".,!?;:\"'()[]{}"
-    cleaned_word = word.lower().strip(punctuation)
-    
+    # 3. KoNLPy로 단어를 '정리'합니다 (구두점 제거)
+    punctuation = ".,!?;:\"'()[]{}" 
+    cleaned_word = word.strip(punctuation) # 예: "컴퓨터를." -> "컴퓨터를"
+
     if not cleaned_word:
-        return JsonResponse({"definitions": ["뜻을 찾을 수 없는 단어입니다."], "word": word})
+         return JsonResponse({"definitions": ["뜻을 찾을 수 없는 단어입니다."], "word": word})
 
+    # 4. KoNLPy로 '핵심 단어'(명사, 동사 등)를 추출합니다.
+    # 'stem=True'로 기본형을 찾습니다.
+    pos_tags = okt.pos(cleaned_word, stem=True)
+    
+    search_word = None
+    for tag, pos in pos_tags:
+        # 명사, 동사, 형용사, 알파벳만 검색 대상으로 인정
+        if pos in ['Noun', 'Verb', 'Adjective', 'Alpha']:
+            search_word = tag
+            break
+    
+    # 적절한 단어를 못찾으면 그냥 정리된 단어(조사 뗀 단어)를 사용
+    if search_word is None:
+        search_word = cleaned_word.rstrip('을를이가는은도') # 간단한 조사 제거
+    
+    # 5. [매우 중요] KoNLPy가 찾은 '핵심 단어'로 '사전'을 검색합니다.
     try:
-        # Word 객체 가져오기
-        word_obj = find_or_create_word(cleaned_word)
-
+        # 'okt.morphs()'가 아니라 'find_or_create_word'를 호출해야 합니다!
+        word_obj = find_or_create_word(search_word) # 예: "컴퓨터"로 검색
+        
+        # 6. '뜻'을 가져옵니다.
         definitions = word_obj.definitions.all()
         def_list = [d.text for d in definitions]
         
         if not def_list:
             def_list = ["사전에서 뜻을 찾을 수 없습니다."]
 
-        return JsonResponse({"definitions": def_list, "word": cleaned_word})
+        # 7. '뜻 리스트'를 반환합니다.
+        return JsonResponse({"definitions": def_list, "word": search_word})
 
     except Exception as e:
-        print(f"Error in meaning view: {e}")
-        return JsonResponse({"definitions": [f"사전 검색 중 오류 발생: {str(e)}"], "word": cleaned_word}, status=500)
+        # 8. 'find_or_create_word' 실행 중 에러가 나면 (API, DB 등)
+        print(f"Error in meaning view (service call): {e}") # 서버 터미널에 로그
+        return JsonResponse({"definitions": [f"사전 검색 중 오류 발생: {str(e)}"], "word": search_word}, status=500)
