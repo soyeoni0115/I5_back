@@ -19,9 +19,10 @@ if /i "%confirm%" NEQ "y" (
     exit /b
 )
 
-echo.
-echo [1/2] 데이터베이스 초기화 중...
-python manage.py flush --no-input
+
+rem echo.
+rem echo [1/2] 데이터베이스 초기화 중...
+rem python manage.py flush --no-input
 
 echo.
 echo [2/2] 데이터 로드 중...

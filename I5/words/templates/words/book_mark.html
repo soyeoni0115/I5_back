@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head> 
+    <title>북마크 목록</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        strong{ font-size: 1.2em; }
+        .definitions { padding-right: 100px; }
+    </style>
+</head>
+<body>
+    <h1>북마크된 단어 목록</h1>
+
+        {% if words %}
+         <ul>
+            {% for word in words %}
+            <li>
+                <strong>{{ word.text }}</strong>
+                <ul id="definitions">
+                    {% for definition in word.definitions.all %}
+                    <li>{{ definition.text }}</li>
+                {% empty %}
+                    <li>뜻이 없습니다.</li>
+                {% endfor %}
+                <br>
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>북마크된 단어가 없습니다.</p>
+    {% endif %} 
+</body>
+</html>
