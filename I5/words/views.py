@@ -64,3 +64,18 @@ def toggle_bookmark(request, word_id):
     query_string = f"?query={word.text}"
     
     return redirect(base_url + query_string)
+
+#내가 수정
+@login_required
+def bookmark_list(request):
+    '''
+    /words/bookmarklist/
+    사용자의 북마크된 단어 목록을 보여주는 뷰
+    '''
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('word')
+    words = [bookmark.word for bookmark in bookmarks]
+    
+    context = {
+        'words': words
+    }
+    return render(request, 'words/book_mark.html', context)
