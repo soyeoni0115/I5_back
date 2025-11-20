@@ -1,0 +1,466 @@
+body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px 40px;
+    min-height: 100vh;
+}
+
+/* ======================= 헤더 ======================= */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 60px;
+}
+.logo-text-left {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 40px;
+    margin-top: 20px;
+}
+.home-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 15px;
+    white-space: nowrap;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 15px;
+    margin-top: 20px;
+    background-color: #000000;
+}
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    background: transparent;
+    font-size: 14px;
+    width: 200px;
+}
+.search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 5px;
+}
+
+.profile-divider {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px auto 40px; /* 상단 20px, 하단 40px 여백 */
+    width: 100%;
+    display: block; 
+}
+
+/* ======================= 구분선 ======================= */
+.section-divider {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px auto 40px;
+    width: 100%;
+    display:block;
+}
+
+/* ======================= 공통 섹션 스타일 ======================= */
+section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* ======================= 프로필 섹션 ======================= */
+.profile-section {
+    text-align: center;
+}
+
+.profile-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #d0d0d0;
+    margin-right: 20px;
+}
+
+.profile-text {
+    text-align: left;
+}
+
+.username {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #111;
+}
+
+.email-placeholder {
+    display: block;
+    font-size: 13px;
+    color: #888;
+    background-color: #e8e8e8;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.edit-button {
+    background-color: #7bc96f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 100px;
+    height: 36px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.edit-button:hover {
+    background-color: #6bb85f;
+}
+
+/* ======================= 활동 요약 섹션 ======================= */
+.activity-summary {
+    text-align: center;
+}
+
+.summary-cards {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.summary-card {
+    flex: 1;
+    max-width: 300px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.card-icon-saved,
+.card-icon-ranking {
+    
+    flex-shrink: 0;
+    border-radius: 12px;
+    position: relative;
+}
+
+.card-icon-saved::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px;
+    height: 35px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+
+.card-icon-ranking::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 35px;
+   
+    border-radius: 6px;
+}
+
+.card-icon-ranking::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-label {
+    font-size: 16px;
+    color: #333;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+}
+
+.card-count {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+    color: #111;
+}
+
+/* ======================= 내 단어장 섹션 ======================= */
+.my-wordbook {
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.my-wordbook .section-title {
+    text-align: left;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+
+
+.wordbook-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #d0d0d0;
+    background-color: #FFF;
+    border-radius: 12px;
+    padding: 30px 35px;
+    cursor: pointer;
+    color: #333;
+    font-size: 18px;
+    font-weight: 500;
+    flex: 1;
+    margin-left: auto;
+    max-width: 400px;
+}
+
+.wordbook-link:hover {
+    background-color: #fafafa;
+}
+
+.link-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.link-icon {
+  
+    border-radius: 8px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.link-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.arrow-icon {
+    font-size: 20px;
+    color: #7bc96f;
+    font-weight: bold;
+}
+
+.customer-support {
+    text-align: center;
+}
+
+.support-links {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
+}
+
+.support-links a {
+    text-decoration: none;
+    color: #444;
+    font-size: 18px;
+    font-weight: 400;
+    margin-left:90px;
+}
+
+.support-links a:hover {
+    color: #111;
+}
+
+/* ======================= 프로필 수정 모달 ======================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(51, 51, 51, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 24px;
+    width: 440px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #666;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.modal-profile-avatar {
+    margin: 30px auto 15px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #d0d0d0;
+}
+
+.modal-image-btn {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    color: #333;
+    font-size: 13px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.modal-username {
+    margin: 20px auto 8px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.modal-edit-icon {
+    font-size: 16px;
+    color: #999;
+}
+
+.modal-email {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.modal-section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111;
+    margin: 25px 0 10px;
+}
+
+.modal-password-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.modal-pw-btn {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #333;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.modal-delete-btn {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    color: #666;
+    font-size: 13px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container { padding: 20px; }
+    .summary-cards { flex-direction: column; }
+    .my-wordbook { flex-direction: column; align-items: stretch; }
+    .my-wordbook .section-title { text-align: center; margin-bottom: 20px; }
+    .wordbook-link { max-width: 100%; margin-left: 0; }
+    .support-links { flex-direction: column; gap: 20px; }
+}

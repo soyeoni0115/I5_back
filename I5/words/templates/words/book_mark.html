@@ -1,36 +1,123 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
-<head> 
-    <title>북마크 목록</title>
-    <style>
-        body { font-family: sans-serif; margin: 20px; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin-bottom: 10px; }
-        strong{ font-size: 1.2em; }
-        .definitions { padding-right: 100px; }
-    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 단어장</title>
+    <link rel="stylesheet" href="{% static 'css/vocabulary.css' %}">
 </head>
 <body>
-    <h1>북마크된 단어 목록</h1>
+    <div class="modal-overlay" id="startModal" style="display: none;">
+      <div class="modal-content">
+        <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+        <h2 class="modal-title">학습 종료</h2>
+        <button class="modal-start-btn" id="startStudyBtn">학습 시작하기</button>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="flashcardModal" style="display: none;">
+        <div class="flashcard-modal-box">
+            
+            <button class="arrow-btn left" id="cardPrevBtn" aria-label="이전 단어">&lt;</button>
+            
+            <div class="flashcard-content">
+                <button class="modal-close-btn" id="closeFlashcardBtn">&times;</button>
+
+                <div class="flashcard-word">단어</div>
+                
+                <div class="flashcard-half"></div>
+                
+                <div class="flashcard-detail"></div>
+            </div>
+            
+            <button class="arrow-btn right" id="cardNextBtn" aria-label="다음 단어">&gt;</button>
+            
+            <button class="flashcard-mean-btn" id="showMeaningBtn">의미보기 | SPACE</button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="{% url 'main' %}">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10C0 4.47715 4.47715 0 10 0H40C45.5228 0 50 4.47715 50 10V40C50 45.5228 45.5228 50 40 50H10C4.47715 50 0 45.5228 0 40V10Z" fill="#62C370"/>
+                    <path d="M12.5 14.8711H8V37.3711H41V31.8711" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.5 12.3699C13.9735 11.3574 15.6957 12.5001 26 14.8631V37.5217C20.0364 33.0381 16.4083 34.3639 12.5 33.8631V12.3699Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M26.5 36.8754C29.5311 34.2876 33.2064 33.491 38 33.8711" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M30 21C30 19.8954 30.8954 19 32 19H44C45.1046 19 46 19.8954 46 21V27C46 28.1046 45.1046 29 44 29H32C30.8954 29 30 28.1046 30 27V21Z" fill="#4A90E2"/>
+                    <path d="M34.6992 25.1055C34.5195 25.1055 34.3535 25.0605 34.2012 24.9707C34.0488 24.8809 33.9277 24.7617 33.8379 24.6133C33.752 24.4609 33.7109 24.2969 33.7148 24.1211C33.7109 23.9453 33.752 23.7832 33.8379 23.6348C33.9277 23.4863 34.0488 23.3691 34.2012 23.2832C34.3535 23.1934 34.5195 23.1484 34.6992 23.1484C34.8672 23.1484 35.0254 23.1934 35.1738 23.2832C35.3262 23.3691 35.4473 23.4863 35.5371 23.6348C35.627 23.7832 35.6719 23.9453 35.6719 24.1211C35.6719 24.2969 35.627 24.4609 35.5371 24.6133C35.4473 24.7617 35.3262 24.8809 35.1738 24.9707C35.0254 25.0605 34.8672 25.1055 34.6992 25.1055ZM38.0859 25.1055C37.9062 25.1055 37.7402 25.0605 37.5879 24.9707C37.4355 24.8809 37.3145 24.7617 37.2246 24.6133C37.1387 24.4609 37.0977 24.2969 37.1016 24.1211C37.0977 23.9453 37.1387 23.7832 37.2246 23.6348C37.3145 23.4863 37.4355 23.3691 37.5879 23.2832C37.7402 23.1934 37.9062 23.1484 38.0859 23.1484C38.2539 23.1484 38.4121 23.1934 38.5605 23.2832C38.7129 23.3691 38.834 23.4863 38.9238 23.6348C39.0137 23.7832 39.0586 23.9453 39.0586 24.1211C39.0586 24.2969 39.0137 24.4609 38.9238 24.6133C38.834 24.7617 38.7129 24.8809 38.5605 24.9707C38.4121 25.0605 38.2539 25.1055 38.0859 25.1055ZM41.4727 25.1055C41.293 25.1055 41.127 25.0605 40.9746 24.9707C40.8223 24.8809 40.7012 24.7617 40.6113 24.6133C40.5254 24.4609 40.4844 24.2969 40.4883 24.1211C40.4844 23.9453 40.5254 23.7832 40.6113 23.6348C40.7012 23.4863 40.8223 23.3691 40.9746 23.2832C41.127 23.1934 41.293 23.1484 41.4727 23.1484C41.6406 23.1484 41.7988 23.1934 41.9473 23.2832C42.0996 23.3691 42.2207 23.4863 42.3105 23.6348C42.4004 23.7832 42.4453 23.9453 42.4453 24.1211C42.4453 24.2969 42.4004 24.4609 42.3105 24.6133C42.2207 24.7617 42.0996 24.8809 41.9473 24.9707C41.7988 25.0605 41.6406 25.1055 41.4727 25.1055Z" fill="white"/>
+                </svg>
+            </a>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn">홈</button>
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="검색하세요.">
+                <button class="search-btn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="title">내 단어장</h1>
+        <p class="subtitle">저장한 단어들을 확인하고 학습할 수 있습니다.</p>
+
+        <div class="filter-section">
+            <div class="filter-left">
+                <span class="filter-label">정렬 옵션</span>
+                <div class="filter-buttons">
+                    <a href="?sort=alphabetical" class="filter-btn {% if sort_option == 'alphabetical' %}active{% endif %}">가나다순</a>
+                    <a href="?sort=frequency" class="filter-btn {% if sort_option == 'frequency' %}active{% endif %}">빈도순</a>
+                    <a href="?sort=random" class="filter-btn {% if sort_option == 'random' %}active{% endif %}">무작위</a>
+                </div>
+            </div>
+            <button class="add-folder-btn" id="openFlashcardBtn">플래시 카드로 보기</button>
+        </div>
 
         {% if words %}
-         <ul>
+        <div class="word-grid" id="wordGrid">
             {% for word in words %}
-            <li>
-                <strong>{{ word.text }}</strong>
-                <ul id="definitions">
+            <div class="word-card" data-page="1">
+                <span class="bookmark-icon">🔖</span>
+                
+                <div class="word-header">
+                    {{ word.text }}
+                </div>
+
+                <div class="word-detail">
+                    {% for definition in word.definitions.all|slice:":1" %}
+                        {{ definition.text }}<br>
+                    {% empty %}
+                        뜻이 없습니다.
+                    {% endfor %}
+                    
+                    {% if word.definitions.all.count > 1 %}
+                        <span style="font-size: 1em; color: #474747ff;">...</span>
+                    {% endif %}
+                </div>
+
+                <div class="full-meaning" style="display: none;">
                     {% for definition in word.definitions.all %}
-                    <li>{{ definition.text }}</li>
-                {% empty %}
-                    <li>뜻이 없습니다.</li>
-                {% endfor %}
-                <br>
-                </ul>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>북마크된 단어가 없습니다.</p>
-    {% endif %} 
+                        {{ definition.text }}|
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %} 
+            
+        <div class="pagination">
+            <button class="page-btn" id="prevPage">1</button>
+            <div class="page-numbers" id="pageNumbers"></div>
+            <button class="page-btn" id="nextPage">2</button>
+        </div>
+    </main>
+
+    <script src="{% static 'js/vocabulary.js' %}"></script>
 </body>
 </html>

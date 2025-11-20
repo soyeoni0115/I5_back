@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width,initial-scale=1.0">
     <title>메인화면(로그인전)</title>
-    <link rel="stylesheet" href="{% static 'css/mainbf.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <script src="{% static 'js/mainbf.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <header id="header">
         <div class="container">
             <div class="row">
                 <div class="header clearfix">
                     <h1>
-                        <a href="#">
+                        <a href="{% url 'main' %}">
                             <em><img src="img/logo.png" alt="로고 혹은 이름"></em>
                         </a>    
                     </h1>
@@ -22,7 +22,6 @@
                         <ul class="clearfix">
                             <li><a href="accounts/login">로그인</a></li>
                             <li><a href="accounts/signup">회원가입</a></li>
-                            <li><a href="#">프로필</a></li>
                         </ul>
                         <div class="search-box">
                             <input type="text" placeholder="검색하세요">

@@ -1,46 +1,59 @@
-<!-- 
-디버깅용 임시 파일, 삭제해도 상관 없음, 따로 알림만 주세요
-
-이 파일은 words/templates/words/word_search.html 입니다.
-/words/dictionary/ URL 접속 시 이 화면이 보입니다.
--->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>단어 검색 테스트</title>
-    <style> 
-        body { font-family: sans-serif; margin: 20px; }
-        .search-box { margin-bottom: 20px; }
-        .result-box { border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
-        .error { color: red; font-weight: bold; }
-        .definitions { margin-left: 20px; }
-    </style>
+    <meta name="viewpoint" content="width=device-width,initial-scale=1.0">
+    <title>단어 문장/변환</title>
+    <link rel="stylesheet" href="{% static 'css/word1.css' %}">
 </head>
 <body>
-    <h1>단어 검색 테스트 화면</h1>
+    <header id="header">
+        <div class="header-content-container">
+            <div class="top-row">
+                <div class="header clearfix">
+                    <h1>
+                        <a href="{% url 'main' %}">
+                            <em><img src="assets/img/logo.png" alt="로고"></em>
+                        </a>    
+                    </h1>
+                    <nav class="nav">
+                        <ul class="clearfix">
+                            <li><a href="#">홈</a></li>
+                        </ul>
+                        <div class="search-box">
+                            <input type="text" placeholder="검색하세요">
+                            <button class="search-btn" aria-label;="검색"></button>
+                        </div>
+                    </nav>    
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main-search-content">
+        <nav class="search-tabs">
+            <button class="tab-btn active">단어</button>
+            <button class="tab-btn">문서</button>
+        </nav>
+        <section class="search-area">
+            <nav class="search-word-tabs">
+            <h2>단어 검색</h2>
+            <p>어려운 단어를 입력하면 단어의 뜻을 제공합니다.</p>
+        </nav>
+        <div class="mian-search-input-wrapper">
+            <form action="{% url 'words:word_search' %}" method="GET">
+                <input type="text" name="query" value= "{{ query|default:'' }}"  placeholder="어려운 단어를 입력하세요...">
+            </form>
+        </div>
 
-    <!-- 1. 단어 검색 폼 (GET 방식) -->
-    <div class="search-box">
-        <form action="{% url 'words:word_search' %}" method="GET">
-            <input type="text" name="query" value="{{ query|default:'' }}" placeholder="단어를 입력하세요 (예: 나무)">
-            <button type="submit">검색</button>
-        </form>
-    </div>
-
-    <!-- 2. 검색 결과 또는 에러 표시 -->
-    {% if error_message %}
+        <div>
+             {% if error_message %}
         <div class="error">
             <p>오류 발생: {{ error_message }}</p>
         </div>
-    {% endif %}
+            {% endif %}
 
-    {% if word %}
-            <h2>{{ word.text }}</h2>
-            
-         
+            {% if word %}
             <div class="result-box">
             <h2>{{ word.text }}</h2>
             
@@ -84,5 +97,8 @@
         <p>검색 결과가 없습니다.</p>
     {% endif %}
 
+        </div>
+        </section>
+    </main>
+    <script src="{% static 'js/word1.js' %}"></script>
 </body>
-</html>
