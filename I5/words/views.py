@@ -72,10 +72,36 @@ def bookmark_list(request):
     /words/bookmarklist/
     사용자의 북마크된 단어 목록을 보여주는 뷰
     '''
+    sort_option = request.GET.get('sort', 'recent')
+
+    # 1. 기본 쿼리셋
     bookmarks = Bookmark.objects.filter(user=request.user).select_related('word')
+
+    # 2. 정렬 로직
+    if sort_option == 'random':
+        bookmarks = bookmarks.order_by('?') 
+    elif sort_option == 'alphabetical':
+        bookmarks = bookmarks.order_by('word__text')
+    elif sort_option == 'frequency':
+        bookmarks = bookmarks.order_by('-word__search_count')
+    else: # recent (기본값)
+        bookmarks = bookmarks.order_by('-id')
+
+    # 3. 단어 객체 리스트 추출
     words = [bookmark.word for bookmark in bookmarks]
     
+    # 4. [핵심] 자바스크립트 전달용 데이터 구성
+    words_data = []
+    for word in words:
+        words_data.append({
+            'text': word.text,
+            'definitions': [d.text for d in word.definitions.all()] 
+        })
+    
     context = {
-        'words': words
+        'words': words,           # HTML 렌더링용
+        'words_data': words_data, # JS 데이터 전달용
+        'sort_option': sort_option,
     }
     return render(request, 'words/book_mark.html', context)
+

@@ -1,0 +1,121 @@
+
+
+body {
+    
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FFFFFF;;
+    margin: 0;
+    
+}
+
+.inbox{
+      width:575px;
+      height: 800px;
+      border-radius: 25px;
+      box-shadow: 0 0 3px #4E4E4E;
+      max-width:1440px;
+      over-flow: hidden;
+}
+
+.border{
+    width: 575px;
+    height: 763px;
+    border: 1px solid black;
+    box-sizing: border-box
+}
+/*로고*/
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+}
+
+.signup-box {
+    width: 575px;
+    padding: 40px;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+    
+
+.signup-box h2 { 
+    color: #62C370;
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 30px;
+    
+}
+
+.form-group {
+    margin-bottom: 20px;
+    
+}
+
+  /*이메일,아이디,비밀번호 그 자체 칸 밑 칸 아님*/
+.form-group label {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    font-size: 15px;
+    background-color: white;
+    border: 1px solid #4E4E4E99;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+.signup-button {
+    width: 100%;
+    height:69px;
+    padding: 15px;
+    color:white;
+    font-size: 32px;
+    font-weight: 700;
+    background-color: #62C370;
+    border: none;
+    border-radius: 15px;
+    border: 1px solid #4E4E4E99;
+    cursor: pointer;
+    padding: 0 0 5px;
+    
+}
+
+.login-link {
+    text-align: left;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-link span {
+    color: #888;
+}
+
+.login-link a {
+    color: #62C370;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 20px;
+    text-align:right;
+}
+
+.error-message {
+    color: #e04a4a; /* 빨간색 에러 메시지 */
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 0;
+    height: 12px; /* 메시지가 없어도 공간 차지 */
+}
