@@ -1,0 +1,251 @@
+/* 기본 리셋 및 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f9; /* 배경색: 이미지와 유사한 밝은 파란색 계열 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/* --- Header --- */
+#header {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header-content-container {
+    max-width: 840px; 
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.header h1 {
+    float: left;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 30px; 
+}
+
+.header h1 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.nav {
+    float: right;
+    display: flex;
+    align-items: center;
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 10px 0 0; 
+}
+
+.nav ul li {
+    float: left;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #333;
+    padding: 0 10px;
+}
+
+/* 검색 상자 스타일 */
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.search-box input {
+    border: none;
+    padding: 0 8px;
+    height: 100%;
+    outline: none;
+    width: 100px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #888;
+}
+
+.search-icon {
+    font-size: 18px;
+}
+
+/* --- 2. 주요 컨테이너 및 콘텐츠 스타일 --- */
+.container {
+    width: 100%;
+    max-width: none;
+    background-color: #ffffff;  
+    margin-top: 20px;
+    padding: 0 40px;
+    margin:0;
+    min-height:100vh;
+    padding-top:100px;
+    padding-bottom: 100px;
+
+    
+}
+
+.main-content {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.main-content h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.main-content-wrapper{
+    box-sizing: border-box;
+    width: 100%;
+}
+.subtitle {
+    color: #666;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 40px;
+}
+
+/* --- 3. 게임 카드 스타일 --- */
+.game-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.card {
+    flex: 1;
+    max-width: 380px;
+    background-color: #66cc66; /* 이미지의 밝은 녹색 */
+    border-radius: 10px;
+    padding: 30px;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 180px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 2.5em; 
+    margin-bottom: 10px;
+}
+
+.card-text h3 {
+    font-size: 1.90em;
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 0;
+    text-align: center;
+}
+
+.card-text p {
+    font-size: 0.9em;
+    opacity: 0.9;
+    line-height: 1.3;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* --- 4. 랭킹 링크 스타일 --- */
+.ranking-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 780px; /* 카드 두 개 너비 + 간격보다 조금 더 넓게 */
+    margin: 0 auto;
+    padding: 15px 20px;
+    background-color: #ffffff; /* 흰색 배경 */
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* 은은한 그림자 */
+    transition: background-color 0.2s;
+    border: 1px solid #f0f0f0;
+}
+
+.ranking-link:hover {
+    background-color: #fafafa;
+}
+
+.ranking-icon {
+    font-size: 1.5em;
+    color: #4CAF50; /* 트로피 아이콘 색상 (이미지와 유사하게 연두색 계열) */
+    margin-right: 15px;
+    background-color: #e5f5e5;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.arrow-icon {
+    font-size: 1.5em;
+    color: #999;
+}
+
+.ranking-link span:nth-child(2) {
+    flex-grow: 1;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .game-options {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 90%;
+        max-width: none;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        float: none;
+        text-align: center;
+    }
+    .nav {
+        float: none;
+        justify-content: center;
+    }
+}
