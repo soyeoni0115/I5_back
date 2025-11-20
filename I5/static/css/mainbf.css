@@ -43,6 +43,14 @@ body {
     align-items: center;
     gap:12px;
 }
+.header h1 h1{
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 10px;
+}
 
 .header h1 a {
     display: flex;
