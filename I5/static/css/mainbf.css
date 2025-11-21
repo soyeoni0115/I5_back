@@ -90,6 +90,8 @@ body {
     text-decoration: none;
     color: #666;
     font-size: 15px;
+    position: relative;
+    z-index: 10;
 }
 
 .nav ul li a:hover {
@@ -103,8 +105,9 @@ body {
     border-radius: 20px;
     padding: 5px 15px;
     background-color: #ffffff;
-    
-    
+    position: relative;
+    z-index: 1;
+    /*아래 두줄은 내가 추가*/
 }
 
 .search-box input {
