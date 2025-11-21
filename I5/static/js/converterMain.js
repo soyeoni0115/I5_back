@@ -28,7 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             // 클릭된 버튼에 active 추가
             button.classList.add('active');
-        
+            if(this.textContent === '문서') {
+                searchTitle.textContent = '문서 변환';
+                searchDesc.textContent = 'PDF 파일을 업로드하고 단어를 눌러 단어의 뜻을 확인하세요.';
+            } else {
+                // <a href="{% url 'converter:upload'%}"> 문서 변환 페이지로 이동</a>
+                window.location.href = '/words/dictionary/';
+            }
         });
     });
 });
